@@ -78,7 +78,7 @@ def submit():
 
     if request.method == 'POST':
         # return 'if POST'
-        # return   request.form
+        return   request.form
         data = request.form
         return render_template('form-data.html',form_data = data)
     else:
@@ -132,4 +132,24 @@ def jinja():
 
 # change the port
 # app.run(port=8000)
+@app.route('/file')
+def display_file():
+    return render_template('form-file.html')
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    # return request.method
+    if request.method =='POST':
+        if request.files['img']:
+            # Get name of file
+            file_name = request.files['img'].filename
+            # save file on server location
+            request.files['img'].save('upload/'+ file_name)
+            return file_name
+        return request.form
+    else:
+          return 'Not Allowed'
+      
+      
 app.run(port=8000,debug=True)
